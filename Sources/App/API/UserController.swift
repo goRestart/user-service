@@ -37,35 +37,15 @@ struct UserController {
       ).makeJSON()
       return try Response(status: .created, json: userViewModel)
     } catch UserCreationError.invalidUsername {
-      return try Response.error(
-        status: .badRequest,
-        message: "Invalid username",
-        code: 1
-      )
+      return Response.invalidUsername
     } catch UserCreationError.invalidPassword {
-      return try Response.error(
-        status: .badRequest,
-        message: "Invalid password",
-        code: 2
-      )
+      return Response.invalidPassword
     } catch UserCreationError.invalidEmail {
-      return try Response.error(
-        status: .badRequest,
-        message: "Invalid email",
-        code: 3
-      )
+      return Response.invalidEmail
     } catch UserCreationError.usernameIsAlreadyRegistered {
-      return try Response.error(
-        status: .conflict,
-        message: "Username `\(username)` is already registered",
-        code: 4
-      )
+      return Response.alreadyRegistered(username: username)
     } catch UserCreationError.emailIsAlreadyRegistered {
-      return try Response.error(
-        status: .conflict,
-        message: "Email `\(email)` is already registered",
-        code: 5
-      )
+      return Response.alreadyRegistered(email: email)
     }
   }
 }
