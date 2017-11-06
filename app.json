@@ -1,0 +1,17 @@
+{
+	"name": "user-service",
+	"scripts": {},
+	"env": {},
+	"formation": {},
+	"addons": [
+		{
+			"plan": "heroku-postgresql"
+		}
+	],
+	"environments": {},
+	"buildpacks": [
+		{
+			"url": "https://github.com/vapor/heroku-buildpack"
+		}
+	]
+}
