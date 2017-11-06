@@ -4,11 +4,11 @@ import JSON
 extension Response {
   static func error(status: Status,
                     message: String,
-                    code: Int) throws -> Response
+                    identifier: String) throws -> Response
   {
     var json = JSON()
     try json.set("message", message)
-    try json.set("code", code)
+    try json.set("identifier", identifier)
     
     return try Response(
       status: status,
