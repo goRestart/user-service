@@ -17,7 +17,7 @@ struct UserRouteCollection: RouteCollection {
     builder.post(Endpoint.create) { request in
       return try self.userController.create(request)
     }
-    builder.get(Endpoint.verify) { request in
+    builder.post(Endpoint.verify) { request in
       return try self.userController.verify(request)
     }
   }
