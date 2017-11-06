@@ -57,3 +57,20 @@ extension Assembly {
     return CheckEmailAvailabilityTask()
   }
 }
+
+// MARK: - Verify user credentials
+
+extension Assembly {
+  
+  var verifyUserCredentialsTask: VerifyUserCredentialsTask {
+    return VerifyUserCredentialsTask(
+      verifyPasswordTask: verifyPasswordTask
+    )
+  }
+  
+  private var verifyPasswordTask: VerifyPasswordTask {
+    return VerifyPasswordTask(
+      createPasswordHashTask: createPasswordHashTask
+    )
+  }
+}

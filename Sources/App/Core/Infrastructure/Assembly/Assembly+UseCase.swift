@@ -6,4 +6,10 @@ extension Assembly {
       userRepository: userRepository
     )
   }
+  
+  var verifyUserCredentials: VerifyUserCredentials {
+    return VerifyUserCredentials(
+      userRepository: userRepository
+    )
+  }
 }
