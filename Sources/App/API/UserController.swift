@@ -48,4 +48,12 @@ struct UserController {
       return Response.alreadyRegistered(email: email)
     }
   }
+  
+  func verify(_ request: Request) throws -> ResponseRepresentable {
+    guard let username = request.data[Parameter.username]?.string,
+      let password = request.data[Parameter.password]?.string else {
+        return Response.missingParameters
+    }
+    return ""
+  }
 }

@@ -2,6 +2,7 @@ import Vapor
 
 private struct Endpoint {
   static let create = "/"
+  static let verify = "/verify"
 }
 
 struct UserRouteCollection: RouteCollection {
@@ -15,6 +16,9 @@ struct UserRouteCollection: RouteCollection {
   func build(_ builder: RouteBuilder) throws {
     builder.post(Endpoint.create) { request in
       return try self.userController.create(request)
+    }
+    builder.get(Endpoint.verify) { request in
+      return try self.userController.verify(request)
     }
   }
 }
