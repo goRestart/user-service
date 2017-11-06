@@ -120,13 +120,40 @@ class UserControllerSpec: XCTestDatabasePreparations {
   
   func test_should_return_missing_parameters_if_credentials_are_not_passed() throws {
     let request = Request(
-      method: .get,
+      method: .post,
       uri: "/verify"
     )
     
     try droplet
       .testResponse(to: request)
       .assertResponse(is: .missingParameters)
+  }
+  
+  func test_should_return_unauthorized_if_credentials_are_invalid() throws {
+    let request = Request(
+      method: .post,
+      uri: "/verify?username=fakeUser&password=superpassword"
+    )
+    
+    try droplet
+      .testResponse(to: request)
+      .assertResponse(is: .invalidCredentials)
+  }
+  
+  func test_should_return_unauthorized_if_user_is_disabled() throws {
+    let disabledUsername = "skyweb07"
+    givenDisabledUser(
+      username: disabledUsername
+    )
+    
+    let request = Request(
+      method: .post,
+      uri: "/verify?username=\(disabledUsername)&password=superpassword"
+    )
+    
+    try droplet
+      .testResponse(to: request)
+      .assertResponse(is: .disabledUser)
   }
 }
 
