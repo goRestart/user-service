@@ -23,7 +23,7 @@ struct UserController {
     guard let username = request.data[Parameter.username]?.string,
       let password = request.data[Parameter.password]?.string,
       let email = request.data[Parameter.email]?.string else {
-        throw Abort.badRequest
+        return Response.missingParameters
     }
     let basicCredentials = BasicCredentials(
       username: username,
