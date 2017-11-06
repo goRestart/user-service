@@ -4,6 +4,6 @@ extension Response {
   static let invalidEmail = try! Response.error(
     status: .badRequest,
     message: "Invalid email",
-    code: 3
+    identifier: "user.error.invalid_email"
   )
 }

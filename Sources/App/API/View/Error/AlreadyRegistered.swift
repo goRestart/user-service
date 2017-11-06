@@ -5,7 +5,7 @@ extension Response {
     return try! Response.error(
       status: .conflict,
       message: "Username `\(username)` is already registered",
-      code: 4
+      identifier: "user.error.username.alredy_registered"
     )
   }
   
@@ -13,7 +13,7 @@ extension Response {
     return try! Response.error(
       status: .conflict,
       message: "Email `\(email)` is already registered",
-      code: 5
+      identifier: "user.error.email.already_registered"
     )
   }
 }
