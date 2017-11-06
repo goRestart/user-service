@@ -10,12 +10,15 @@ struct Parameter {
 struct UserController {
   
   private let createUser: CreateUser
+  private let verifyUserCredentials: VerifyUserCredentials
   private let userViewMapper: UserViewMapper
   
   init(createUser: CreateUser,
+       verifyUserCredentials: VerifyUserCredentials,
        userViewMapper: UserViewMapper)
   {
     self.createUser = createUser
+    self.verifyUserCredentials = verifyUserCredentials
     self.userViewMapper = userViewMapper
   }
   
@@ -54,6 +57,18 @@ struct UserController {
       let password = request.data[Parameter.password]?.string else {
         return Response.missingParameters
     }
-    return ""
+    let userCredentials = UserCredentials(
+      username: username,
+      password: password
+    )
+    
+    do {
+      try verifyUserCredentials.execute(with: userCredentials)
+      return Response(status: .ok)
+    } catch UserCredentialsError.disabledUser {
+      return Response.disabledUser
+    } catch UserCredentialsError.invalidCredentials {
+      return Response.invalidCredentials
+    }
   }
 }
