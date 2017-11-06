@@ -7,6 +7,7 @@ final class UserDiskModel: Model {
   var username: String
   var email: String
   var passwordId: Fluent.Identifier
+  var enabled = true
   
   init(username: String,
        email: String,
@@ -21,15 +22,15 @@ final class UserDiskModel: Model {
     username = try row.get(Keys.username)
     email = try row.get(Keys.email)
     passwordId = try row.get(Keys.passwordId)
-    id = try row.get(idKey)
+    enabled = try row.get(Keys.enabled)
   }
   
   func makeRow() throws -> Row {
     var row = Row()
-    try row.set(idKey, id)
     try row.set(Keys.username, username)
     try row.set(Keys.email, email)
     try row.set(Keys.passwordId, passwordId)
+    try row.set(Keys.enabled, enabled)
     return row
   }
 
@@ -45,6 +46,7 @@ final class UserDiskModel: Model {
     static let username = "username"
     static let email = "email"
     static let passwordId = "password_id"
+    static let enabled = "enabled"
   }
 }
 
@@ -64,6 +66,7 @@ extension UserDiskModel: Preparation {
       builder.string(Keys.username, optional: false, unique: true)
       builder.string(Keys.email, optional: false, unique: true)
       builder.parent(PasswordDiskModel.self, foreignIdKey: Keys.passwordId)
+      builder.bool(Keys.enabled, default: true)
     }
   }
   

@@ -10,6 +10,7 @@ extension Assembly {
   private var userDiskDataSource: UserDiskDataSource {
     return UserDiskDataSource(
       createUserTaskProvider: self,
+      verifyUserCredentialsTask: verifyUserCredentialsTask,
       userMapper: userMapper
     )
   }
