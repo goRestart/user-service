@@ -15,14 +15,12 @@ final class PasswordDiskModel: Model {
   init(row: Row) throws {
     hash = try row.get(Keys.hash)
     salt = try row.get(Keys.salt)
-    id = try row.get(idKey)
   }
   
   func makeRow() throws -> Row {
     var row = Row()
     try row.set(Keys.hash, hash)
     try row.set(Keys.salt, salt)
-    try row.set(idKey, id)
     return row
   }
   
