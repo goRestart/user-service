@@ -1,3 +1,4 @@
+import CoreService
 import Fluent
 import PostgreSQL
 import Validation

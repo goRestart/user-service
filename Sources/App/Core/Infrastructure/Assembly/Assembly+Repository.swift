@@ -1,4 +1,4 @@
-import Foundation
+import CoreService
 
 extension Assembly {
   var userRepository: UserRepository {

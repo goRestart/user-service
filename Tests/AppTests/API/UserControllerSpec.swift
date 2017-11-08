@@ -1,9 +1,16 @@
 import XCTest
 import Testing
 import HTTP
+import CoreTesting
 @testable import App
+import CoreService
 
 class UserControllerSpec: XCTestDatabasePreparations {
+  
+  override func setUp() {
+    droplet = TestableDroplet.droplet
+    super.setUp()
+  }
   
   // MARK: - Create user
   
@@ -13,7 +20,7 @@ class UserControllerSpec: XCTestDatabasePreparations {
       uri: "/"
     )
     
-    try droplet
+    try droplet?
       .testResponse(to: request)
       .assertResponse(is: .missingParameters)
   }
@@ -24,7 +31,7 @@ class UserControllerSpec: XCTestDatabasePreparations {
       uri: "/?username=no&password=12345678&email=test@test.com"
     )
     
-    try droplet
+    try droplet?
       .testResponse(to: request)
       .assertResponse(is: .invalidUsername)
   }
@@ -35,7 +42,7 @@ class UserControllerSpec: XCTestDatabasePreparations {
       uri: "/?username=1234567890123456789012345678901&password=12345678&email=test@test.com"
     )
     
-    try droplet
+    try droplet?
       .testResponse(to: request)
       .assertResponse(is: .invalidUsername)
   }
@@ -46,7 +53,7 @@ class UserControllerSpec: XCTestDatabasePreparations {
       uri: "/?username=uno_$&password=12345678&email=test@test.com"
     )
     
-    try droplet
+    try droplet?
       .testResponse(to: request)
       .assertResponse(is: .invalidUsername)
   }
@@ -57,7 +64,7 @@ class UserControllerSpec: XCTestDatabasePreparations {
       uri: "/?username=username&password=12345&email=test@test.com"
     )
     
-    try droplet
+    try droplet?
       .testResponse(to: request)
       .assertResponse(is: .invalidPassword)
   }
@@ -68,7 +75,7 @@ class UserControllerSpec: XCTestDatabasePreparations {
       uri: "/?username=username&password=123456&email=test@testcom"
     )
     
-    try droplet
+    try droplet?
       .testResponse(to: request)
       .assertResponse(is: .invalidEmail)
   }
@@ -84,7 +91,7 @@ class UserControllerSpec: XCTestDatabasePreparations {
       uri: "/?username=\(username)&password=123456&email=test@test.com"
     )
     
-    try droplet
+    try droplet?
       .testResponse(to: request)
       .assertResponse(is: .alreadyRegistered(username: username))
   }
@@ -100,7 +107,7 @@ class UserControllerSpec: XCTestDatabasePreparations {
       uri: "/?username=username123&password=123456&email=\(email)"
     )
     
-    try droplet
+    try droplet?
       .testResponse(to: request)
       .assertResponse(is: .alreadyRegistered(email: email))
   }
@@ -111,7 +118,7 @@ class UserControllerSpec: XCTestDatabasePreparations {
       uri: "/?username=username&password=123456&email=test@test.com"
     )
     
-    try droplet
+    try droplet?
       .testResponse(to: request)
       .assertStatus(is: .created)
   }
@@ -124,7 +131,7 @@ class UserControllerSpec: XCTestDatabasePreparations {
       uri: "/verify"
     )
     
-    try droplet
+    try droplet?
       .testResponse(to: request)
       .assertResponse(is: .missingParameters)
   }
@@ -135,7 +142,7 @@ class UserControllerSpec: XCTestDatabasePreparations {
       uri: "/verify?username=fakeUser&password=superpassword"
     )
     
-    try droplet
+    try droplet?
       .testResponse(to: request)
       .assertResponse(is: .invalidCredentials)
   }
@@ -151,7 +158,7 @@ class UserControllerSpec: XCTestDatabasePreparations {
       uri: "/verify?username=\(disabledUsername)&password=superpassword"
     )
     
-    try droplet
+    try droplet?
       .testResponse(to: request)
       .assertResponse(is: .disabledUser)
   }
@@ -169,6 +176,9 @@ extension UserControllerSpec {
     ("test_should_return_bad_request_if_email_is_invalid", test_should_return_bad_request_if_email_is_invalid),
     ("test_should_return_conflict_if_username_is_already_registered", test_should_return_conflict_if_username_is_already_registered),
     ("test_should_return_conflict_if_email_is_already_registered", test_should_return_conflict_if_email_is_already_registered),
-    ("test_should_return_created_if_user_was_registered_correctly", test_should_return_created_if_user_was_registered_correctly)
+    ("test_should_return_created_if_user_was_registered_correctly", test_should_return_created_if_user_was_registered_correctly),
+    ("test_should_return_missing_parameters_if_credentials_are_not_passed", test_should_return_missing_parameters_if_credentials_are_not_passed),
+    ("test_should_return_unauthorized_if_credentials_are_invalid", test_should_return_unauthorized_if_credentials_are_invalid),
+    ("test_should_return_unauthorized_if_user_is_disabled", test_should_return_unauthorized_if_user_is_disabled)
   ]
 }

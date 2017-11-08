@@ -1,4 +1,5 @@
 import Foundation
+import CoreService
 import Fluent
 import Vapor
 

@@ -1,3 +1,4 @@
+import CoreService
 import FluentProvider
 import PostgreSQLProvider
 

@@ -1,4 +1,5 @@
 import Fluent
+import CoreService
 @testable import App
 
 func givenUser(username: String = "username",

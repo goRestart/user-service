@@ -1,5 +1,6 @@
 import Vapor
 import HTTP
+import CoreService
 
 struct Parameter {
   static let username = "username"
