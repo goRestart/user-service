@@ -3,7 +3,7 @@
 import PackageDescription
 
 #if os(Linux)
-  import libc
+  import Glibc
 #else
   import Darwin
 #endif
