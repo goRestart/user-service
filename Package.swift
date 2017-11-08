@@ -1,7 +1,12 @@
 // swift-tools-version:4.0
 
-import Foundation
 import PackageDescription
+
+#if os(Linux)
+  import libc
+#else
+  import Darwin
+#endif
 
 // MARK: - Helper to get environment variables from system
 
