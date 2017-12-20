@@ -1,11 +1,11 @@
 import Foundation
 import CoreService
 
-struct UserMapper {
+struct UserMapper: Mappable {
   
   func map(_ from: UserDiskModel) throws -> User {
     return User(
-      identifier: Identifier(from.id!.string!),
+      id: Identifier(from.id!.string!),
       username: from.username,
       email: from.email
     )
