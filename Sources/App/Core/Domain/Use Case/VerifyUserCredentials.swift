@@ -8,7 +8,9 @@ struct VerifyUserCredentials {
     self.userRepository = userRepository
   }
   
-  func execute(with credentials: Credentials) throws {
+  @discardableResult
+  func execute(with credentials: UserCredentials) throws -> User? {
     try userRepository.verify(with: credentials)
+    return try userRepository.findBy(username: credentials.username)
   }
 }

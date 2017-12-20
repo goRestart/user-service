@@ -9,7 +9,7 @@ struct CreateUser {
   }
   
   @discardableResult
-  func execute(with credentials: Credentials) throws -> User {
+  func execute(with credentials: BasicCredentials) throws -> User {
     return try userRepository.create(with: credentials)
   }
 }
