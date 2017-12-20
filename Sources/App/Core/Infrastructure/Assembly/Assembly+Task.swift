@@ -59,19 +59,29 @@ extension Assembly {
   }
 }
 
+// MARK: - Get user
+
+extension Assembly {
+  var getUserByUsernameTask: GetUserByUsernameTask {
+    return GetUserByUsernameTask()
+  }
+}
+
 // MARK: - Verify user credentials
 
 extension Assembly {
   
   var verifyUserCredentialsTask: VerifyUserCredentialsTask {
     return VerifyUserCredentialsTask(
-      verifyPasswordTask: verifyPasswordTask
+      verifyPasswordTask: verifyPasswordTask,
+      getUserByUsernameTask: getUserByUsernameTask
     )
   }
   
   private var verifyPasswordTask: VerifyPasswordTask {
     return VerifyPasswordTask(
-      createPasswordHashTask: createPasswordHashTask
+      createPasswordHashTask: createPasswordHashTask,
+      hasher: hasher
     )
   }
 }

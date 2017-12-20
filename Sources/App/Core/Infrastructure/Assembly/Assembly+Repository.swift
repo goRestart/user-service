@@ -11,6 +11,7 @@ extension Assembly {
     return UserDiskDataSource(
       createUserTaskProvider: self,
       verifyUserCredentialsTask: verifyUserCredentialsTask,
+      getUserByUsernameTask: getUserByUsernameTask,
       userMapper: userMapper
     )
   }

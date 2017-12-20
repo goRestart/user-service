@@ -10,8 +10,7 @@ extension Assembly {
   private var userController: UserController {
     return UserController(
       createUser: createUser,
-      verifyUserCredentials: verifyUserCredentials,
-      userViewMapper: userViewMapper
+      verifyUserCredentials: verifyUserCredentials
     )
   }
 }

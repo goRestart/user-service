@@ -1,7 +1,6 @@
 import CoreService
 import Vapor
-import Fluent
-
+ 
 extension Assembly {
   public var application: Droplet {
     let droplet =  try! Droplet(config)
