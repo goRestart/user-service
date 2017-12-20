@@ -25,7 +25,7 @@ class UserControllerSpec: XCTestDatabasePreparations {
       .assertResponse(is: .missingParameters)
   }
   
-  func test_should_return_bad_request_if_username_is_length_is_lower_than_3() throws {
+  func test_should_return_bad_request_if_username_length_is_lower_than_3() throws {
     let request = Request(
       method: .post,
       uri: "/?username=no&password=12345678&email=test@test.com"
@@ -36,7 +36,7 @@ class UserControllerSpec: XCTestDatabasePreparations {
       .assertResponse(is: .invalidUsername)
   }
 
-  func test_should_return_bad_request_if_username_is_length_is_bigger_than_30() throws {
+  func test_should_return_bad_request_if_username_length_is_bigger_than_30() throws {
     let request = Request(
       method: .post,
       uri: "/?username=1234567890123456789012345678901&password=12345678&email=test@test.com"
@@ -47,6 +47,18 @@ class UserControllerSpec: XCTestDatabasePreparations {
       .assertResponse(is: .invalidUsername)
   }
 
+  func test_should_return_bad_request_if_password_length_is_bigger_than_100() throws {
+    let password = String(repeating: "*", count: 101)
+    let request = Request(
+      method: .post,
+      uri: "/?username=username&password=\(password)&email=test@test.com"
+    )
+    
+    try droplet?
+      .testResponse(to: request)
+      .assertResponse(is: .invalidPassword)
+  }
+  
   func test_should_return_bad_request_if_username_has_invalid_characters() throws {
     let request = Request(
       method: .post,
@@ -169,8 +181,9 @@ class UserControllerSpec: XCTestDatabasePreparations {
 extension UserControllerSpec {
   static let allTests = [
     ("test_should_return_bad_request_if_required_parameters_are_not_passed", test_should_return_bad_request_if_required_parameters_are_not_passed),
-    ("test_should_return_bad_request_if_username_is_length_is_lower_than_3", test_should_return_bad_request_if_username_is_length_is_lower_than_3),
-    ("test_should_return_bad_request_if_username_is_length_is_bigger_than_30", test_should_return_bad_request_if_username_is_length_is_bigger_than_30),
+    ("test_should_return_bad_request_if_username_length_is_lower_than_3", test_should_return_bad_request_if_username_length_is_lower_than_3),
+    ("test_should_return_bad_request_if_username_length_is_bigger_than_30", test_should_return_bad_request_if_username_length_is_bigger_than_30),
+    ("test_should_return_bad_request_if_password_length_is_bigger_than_100", test_should_return_bad_request_if_password_length_is_bigger_than_100),
     ("test_should_return_bad_request_if_username_has_invalid_characters", test_should_return_bad_request_if_username_has_invalid_characters),
     ("test_should_return_bad_request_if_password_length_is_lower_than_6", test_should_return_bad_request_if_password_length_is_lower_than_6),
     ("test_should_return_bad_request_if_email_is_invalid", test_should_return_bad_request_if_email_is_invalid),

@@ -19,19 +19,10 @@ struct CreateUserTask {
     self.createPasswordHashTask = createPasswordHashTask
   }
   
-  func execute(with credentials: Credentials) throws -> UserDiskModel {
-    switch credentials {
-    case (let credentials as BasicCredentials):
-      return try create(with: credentials)
-    default:
-      fatalError("Credentials \(credentials) can't be handled")
-    }
-  }
-  
-  private func create(with basicCredentials: BasicCredentials) throws -> UserDiskModel {
-    try validateBasicCredentialsTask.validate(basicCredentials)
+  func execute(with credentials: BasicCredentials) throws -> UserDiskModel {
+    try validateBasicCredentialsTask.validate(credentials)
     let ciphered = try createPasswordHashTask.create(
-      with: basicCredentials.password
+      with: credentials.password
     )
     
     return try TransactionHandler.database!.transaction { connection in
@@ -41,10 +32,10 @@ struct CreateUserTask {
       )
       
       try password.makeQuery(connection).save()
-
+      
       let user = try UserDiskModel(
-        username: basicCredentials.username,
-        email: basicCredentials.email,
+        username: credentials.username,
+        email: credentials.email,
         passwordId: password.assertExists()
       )
       

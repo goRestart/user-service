@@ -3,9 +3,13 @@ import Foundation
 struct VerifyUserCredentialsTask {
   
   private let verifyPasswordTask: VerifyPasswordTask
+  private let getUserByUsernameTask: GetUserByUsernameTask
   
-  init(verifyPasswordTask: VerifyPasswordTask) {
+  init(verifyPasswordTask: VerifyPasswordTask,
+       getUserByUsernameTask: GetUserByUsernameTask)
+  {
     self.verifyPasswordTask = verifyPasswordTask
+    self.getUserByUsernameTask = getUserByUsernameTask
   }
   
   func execute(with credentials: Credentials) throws {
@@ -18,10 +22,7 @@ struct VerifyUserCredentialsTask {
   }
   
   private func verify(with credentials: UserCredentials) throws {
-    guard let user = try UserDiskModel
-      .makeQuery()
-      .filter(UserDiskModel.Keys.username, equals: credentials.username)
-      .first(),
+    guard let user = try getUserByUsernameTask.execute(credentials.username),
       let password = try user.password() else {
         throw UserCredentialsError.invalidCredentials
     }
